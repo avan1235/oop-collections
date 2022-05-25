@@ -1,7 +1,11 @@
 package pl.edu.mimuw.collections;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+// In hindsight, this should've been a multiset of entries and not a map from a key to a multiset of
+// values. The code would've been much clearer.
 public class Multimap<K, V> implements IMultimap<K, V> {
   private final Map<K, Multiset<V>> valuesOfKey;
 
@@ -9,12 +13,14 @@ public class Multimap<K, V> implements IMultimap<K, V> {
     valuesOfKey = new HashMap<>();
   }
 
+  public Multimap(Iterable<Map.Entry<K, V>> entries) {
+    this();
+    entries.forEach(entry -> put(entry.getKey(), entry.getValue()));
+  }
+
   @Override
   public int size() {
-    return valuesOfKey.entrySet().stream()
-        .map(entry -> entry.getValue().size())
-        .mapToInt(x -> x)
-        .sum();
+    return valuesOfKey.values().stream().map(Multiset::size).mapToInt(x -> x).sum();
   }
 
   @Override
@@ -24,41 +30,71 @@ public class Multimap<K, V> implements IMultimap<K, V> {
 
   @Override
   public boolean containsValue(V value) {
-    return false;
+    return stream().anyMatch(entry -> entry.getValue() == value);
   }
 
   @Override
   public boolean put(K key, V value) {
-    return false;
+    if (!valuesOfKey.containsKey(key)) valuesOfKey.put(key, new Multiset<>());
+    valuesOfKey.get(key).add(value);
+    return true;
   }
 
   @Override
   public boolean remove(K key, V value) {
-    return false;
+    if (!valuesOfKey.containsKey(key)) return false;
+    return valuesOfKey.get(key).remove(value);
   }
 
   @Override
   public boolean putAll(K key, Iterable<? extends V> values) {
-    values.forEach(x -> put(key, x));
+    values.forEach(value -> put(key, value));
+    return true;
   }
 
   @Override
   public Collection<V> removeAll(K key) {
-    return null;
+    return valuesOfKey.remove(key).toCollection();
   }
 
   @Override
   public Collection<V> get(K key) {
-    return newArrayList valuesOfKey.getOrDefault(key, new Multiset<>()).iterator();
+    return valuesOfKey.getOrDefault(key, new Multiset<>()).toCollection();
   }
 
   @Override
   public Set<K> keySet() {
-    return null;
+    return valuesOfKey.keySet();
+  }
+
+  public Iterator<Map.Entry<K, V>> iterator() {
+    return valuesOfKey.entrySet().stream()
+        .flatMap(entry -> entry.getValue().stream().map(value -> Map.entry(entry.getKey(), value)))
+        .iterator();
+  }
+
+  public Stream<Map.Entry<K, V>> stream() {
+    return Utility.toStream(this);
+  }
+
+  @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+  @Override
+  public boolean equals(Object o) {
+    return new Multiset<>(this).equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(valuesOfKey);
+  }
+
+  @Override
+  public String toString() {
+    return "{" + stream().map(String::valueOf).collect(Collectors.joining(", ")) + "}";
   }
 
   @Override
   public IMultiset<K> keys() {
-    return null;
+    return new Multiset<>(() -> stream().map(Map.Entry::getKey).iterator());
   }
 }

@@ -1,12 +1,37 @@
 package pl.edu.mimuw.collections;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Multiset<E> implements IMultiset<E> {
   private final Map<E, Integer> countOfKey;
 
   public Multiset() {
-    this.countOfKey = new HashMap<E, Integer>();
+    this.countOfKey = new HashMap<>();
+  }
+
+  public Multiset(Iterable<E> elements) {
+    this();
+    elements.forEach(this::add);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Iterable<?>)) return false;
+    var iterable = (Iterable<?>) o;
+    return Utility.areStreamsEqualMultisets(stream(), Utility.toStream(iterable));
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(countOfKey);
+  }
+
+  @Override
+  public String toString() {
+    return "{" + stream().sorted().map(String::valueOf).collect(Collectors.joining(", ")) + "}";
   }
 
   @Override
@@ -21,7 +46,7 @@ public class Multiset<E> implements IMultiset<E> {
 
   @Override
   public int add(E element, int occurrences) {
-    if (occurrences < 0) throw new IllegalArgumentException("Can't remove a negative amount.");
+    if (occurrences < 0) throw new IllegalArgumentException("Can't add a negative amount.");
     var x = count(element);
     if (occurrences == 0) return x;
     countOfKey.put(element, x + occurrences);
@@ -64,5 +89,15 @@ public class Multiset<E> implements IMultiset<E> {
     return countOfKey.entrySet().stream()
         .flatMap(entry -> Collections.nCopies(entry.getValue(), entry.getKey()).stream())
         .iterator();
+  }
+
+  public Stream<E> stream() {
+    return Utility.toStream(this);
+  }
+
+  public Collection<E> toCollection() {
+    var list = new ArrayList<E>();
+    iterator().forEachRemaining(list::add);
+    return list;
   }
 }

@@ -2,20 +2,19 @@ package pl.edu.mimuw.collections;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MultisetTest {
   @Test
   void testAdd() {
     var s = new Multiset<>();
-    assertEquals(true, s.add(69));
-    assertEquals(false, s.add(69));
-    assertEquals(false, s.add(69));
+    assertTrue(s.add(69));
+    assertFalse(s.add(69));
+    assertFalse(s.add(69));
     assertEquals(3, s.add(69, 4));
     assertEquals(7, s.count(69));
     assertEquals(7, s.size());
@@ -34,13 +33,13 @@ class MultisetTest {
     s.add(69, 10);
     assertEquals(10, s.remove(69, 5));
     assertEquals(5, s.count(69));
-    assertEquals(true, s.remove(69));
-    assertEquals(true, s.remove(69));
-    assertEquals(true, s.remove(69));
-    assertEquals(true, s.remove(69));
-    assertEquals(true, s.remove(69));
+    assertTrue(s.remove(69));
+    assertTrue(s.remove(69));
+    assertTrue(s.remove(69));
+    assertTrue(s.remove(69));
+    assertTrue(s.remove(69));
     assertEquals(0, s.count(69));
-    assertEquals(false, s.remove(69));
+    assertFalse(s.remove(69));
     assertEquals(0, s.count(69));
   }
 
@@ -55,5 +54,28 @@ class MultisetTest {
     var elements = new ArrayList<>();
     for (var x : s) elements.add(x);
     assertEquals(Arrays.asList(69, 69, 69, 69, 69, 2137, 2137, 2137), elements);
+  }
+
+  @Test
+  void testEquals() {
+    var a = new Multiset<>(Arrays.asList(1, 2, 3, 3, 3));
+    var b = new Multiset<>(Arrays.asList(3, 2, 1, 3, 3));
+    var c = new Multiset<>(Arrays.asList(1, 1, 1, 1, 3));
+    assertEquals(a, b);
+    assertEquals(b, a);
+    assertNotEquals(a, c);
+    assertNotEquals(b, c);
+    assertEquals(a.hashCode(), b.hashCode());
+    assertEquals(b.hashCode(), a.hashCode());
+
+    // Not guaranteed but most probably.
+    assertNotEquals(a.hashCode(), c.hashCode());
+    assertNotEquals(b.hashCode(), c.hashCode());
+  }
+
+  @Test
+  void testToString() {
+    var s = new Multiset<>(Arrays.asList(1, 2, 3, 3, 3, 4));
+    assertEquals("{1, 2, 3, 3, 3, 4}", s.toString());
   }
 }

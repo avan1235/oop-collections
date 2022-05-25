@@ -2,6 +2,7 @@ package pl.edu.mimuw.collections;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public interface IMultiset<E> extends Iterable<E> {
 
@@ -28,6 +29,8 @@ public interface IMultiset<E> extends Iterable<E> {
   int remove(E element, int occurrences);
 
   /**
+   * Remove a <i>single</i> occurrence, if it exists.
+   *
    * @return Has the set changed?
    */
   boolean remove(E element);
@@ -37,6 +40,8 @@ public interface IMultiset<E> extends Iterable<E> {
   boolean contains(E element);
 
   Iterator<E> iterator();
+
+  Stream<E> stream();
 
   @Override
   boolean equals(Object object);
