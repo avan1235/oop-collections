@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 // In hindsight, this should've been a multiset of entries and not a map from a key to a multiset of
 // values. The code would've been much clearer.
-public class Multimap<K, V> implements IMultimap<K, V> {
+public final class Multimap<K, V> implements IMultimap<K, V> {
   private final Map<K, Multiset<V>> valuesOfKey;
 
   public Multimap() {
@@ -67,12 +67,14 @@ public class Multimap<K, V> implements IMultimap<K, V> {
     return valuesOfKey.keySet();
   }
 
+  @Override
   public Iterator<Map.Entry<K, V>> iterator() {
     return valuesOfKey.entrySet().stream()
         .flatMap(entry -> entry.getValue().stream().map(value -> Map.entry(entry.getKey(), value)))
         .iterator();
   }
 
+  @Override
   public Stream<Map.Entry<K, V>> stream() {
     return Utility.toStream(this);
   }

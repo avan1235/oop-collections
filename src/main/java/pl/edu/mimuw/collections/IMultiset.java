@@ -1,5 +1,6 @@
 package pl.edu.mimuw.collections;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -51,4 +52,6 @@ public interface IMultiset<E> extends Iterable<E> {
 
   @Override
   String toString();
+
+  Collection<E> toCollection();
 }

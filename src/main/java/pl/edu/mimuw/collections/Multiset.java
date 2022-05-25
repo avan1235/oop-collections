@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Multiset<E> implements IMultiset<E> {
+public final class Multiset<E> implements IMultiset<E> {
   private final Map<E, Integer> countOfKey;
 
   public Multiset() {
@@ -91,10 +91,12 @@ public class Multiset<E> implements IMultiset<E> {
         .iterator();
   }
 
+  @Override
   public Stream<E> stream() {
     return Utility.toStream(this);
   }
 
+  @Override
   public Collection<E> toCollection() {
     var list = new ArrayList<E>();
     iterator().forEachRemaining(list::add);

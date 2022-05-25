@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class Utility {
+public final class Utility {
   private Utility() {}
 
   public static <T> Stream<T> toStream(Iterable<T> iterable) {
