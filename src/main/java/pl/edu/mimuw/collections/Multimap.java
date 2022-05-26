@@ -1,5 +1,7 @@
 package pl.edu.mimuw.collections;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,7 +73,7 @@ public final class Multimap<K, V> implements IMultimap<K, V> {
   }
 
   @Override
-  public Iterator<Map.Entry<K, V>> iterator() {
+  public @NotNull Iterator<Map.Entry<K, V>> iterator() {
     return valuesOfKey.entrySet().stream()
         .flatMap(entry -> entry.getValue().stream().map(value -> Map.entry(entry.getKey(), value)))
         .iterator();

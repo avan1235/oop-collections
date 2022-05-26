@@ -1,5 +1,7 @@
 package pl.edu.mimuw.collections;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +28,8 @@ public final class Multiset<E> implements IMultiset<E> {
     if (this == o) return true;
     if (!(o instanceof Iterable<?>)) return false;
     var iterable = (Iterable<?>) o;
-    return Utility.areStreamsEqualMultisets(stream(), Utility.toStream(iterable));
+    var multiset = new Multiset<>(iterable);
+    return countOfKey.equals(multiset.countOfKey);
   }
 
   @Override
@@ -90,7 +93,7 @@ public final class Multiset<E> implements IMultiset<E> {
   }
 
   @Override
-  public Iterator<E> iterator() {
+  public @NotNull Iterator<E> iterator() {
     return countOfKey.entrySet().stream()
         .flatMap(entry -> Collections.nCopies(entry.getValue(), entry.getKey()).stream())
         .iterator();
