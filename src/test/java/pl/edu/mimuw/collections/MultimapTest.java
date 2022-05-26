@@ -42,8 +42,14 @@ class MultimapTest {
     assertEquals(4, s.size());
     assertTrue(s.remove(69, "b"));
     assertEquals(3, s.size());
-    assertEquals(new Multiset<>(List.of("a", "b", "b")), s.removeAll(69));
+    assertEquals(new Multiset<>("a", "b", "b"), s.removeAll(69));
     assertEquals(0, s.size());
+
+    var z = new Multimap<Integer, Integer>();
+    z.put(1, 1);
+    z.remove(1, 1);
+    assertFalse(z.containsKey(1));
+    assertFalse(z.containsValue(1));
   }
 
   @Test

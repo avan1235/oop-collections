@@ -42,8 +42,11 @@ public final class Multimap<K, V> implements IMultimap<K, V> {
 
   @Override
   public boolean remove(K key, V value) {
-    if (!valuesOfKey.containsKey(key)) return false;
-    return valuesOfKey.get(key).remove(value);
+    var values = valuesOfKey.get(key);
+    if (values == null) return false;
+    var hasChanged = values.remove(value);
+    if (values.size() == 0) valuesOfKey.remove(key);
+    return hasChanged;
   }
 
   @Override
@@ -92,7 +95,7 @@ public final class Multimap<K, V> implements IMultimap<K, V> {
 
   @Override
   public String toString() {
-    return "{" + stream().map(String::valueOf).collect(Collectors.joining(", ")) + "}";
+    return stream().map(String::valueOf).collect(Collectors.joining(", ", "{", "}"));
   }
 
   @Override

@@ -1,7 +1,6 @@
 package pl.edu.mimuw.collections;
 
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -13,9 +12,10 @@ public final class Utility {
   }
 
   public static boolean areStreamsEqualMultisets(Stream<?> a, Stream<?> b) {
-    var elementsA = a.collect(Collectors.toList());
-    var elementsB = b.collect(Collectors.toList());
-    if (elementsA.size() != elementsB.size()) return false;
-    return new HashSet<>(elementsA).equals(new HashSet<>(elementsB));
+    var elementsA = new HashMap<Object, Integer>();
+    var elementsB = new HashMap<Object, Integer>();
+    a.forEach(i -> elementsA.merge(i, 1, Integer::sum));
+    b.forEach(i -> elementsB.merge(i, 1, Integer::sum));
+    return elementsA.equals(elementsB);
   }
 }

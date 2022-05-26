@@ -58,15 +58,17 @@ class MultisetTest {
 
   @Test
   void testEquals() {
-    var a = new Multiset<>(Arrays.asList(1, 2, 3, 3, 3));
-    var b = new Multiset<>(Arrays.asList(3, 2, 1, 3, 3));
-    var c = new Multiset<>(Arrays.asList(1, 1, 1, 1, 3));
+    var a = new Multiset<>(1, 2, 3, 3, 3);
+    var b = new Multiset<>(3, 2, 1, 3, 3);
+    var c = new Multiset<>(1, 1, 1, 1, 3);
     assertEquals(a, b);
     assertEquals(b, a);
     assertNotEquals(a, c);
     assertNotEquals(b, c);
     assertEquals(a.hashCode(), b.hashCode());
     assertEquals(b.hashCode(), a.hashCode());
+
+    assertNotEquals(new Multiset<>(1, 1, 2), new Multiset<>(1, 2, 2));
 
     // Not guaranteed but most probably.
     assertNotEquals(a.hashCode(), c.hashCode());
@@ -75,7 +77,7 @@ class MultisetTest {
 
   @Test
   void testToString() {
-    var s = new Multiset<>(Arrays.asList(1, 2, 3, 3, 3, 4));
+    var s = new Multiset<>(1, 2, 3, 3, 3, 4);
     assertEquals("{1, 2, 3, 3, 3, 4}", s.toString());
   }
 }

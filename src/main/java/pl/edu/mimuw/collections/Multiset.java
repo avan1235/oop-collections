@@ -16,6 +16,11 @@ public final class Multiset<E> implements IMultiset<E> {
     elements.forEach(this::add);
   }
 
+  @SafeVarargs
+  public Multiset(E... elements) {
+    this(Arrays.asList(elements));
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -31,7 +36,7 @@ public final class Multiset<E> implements IMultiset<E> {
 
   @Override
   public String toString() {
-    return "{" + stream().sorted().map(String::valueOf).collect(Collectors.joining(", ")) + "}";
+    return stream().sorted().map(String::valueOf).collect(Collectors.joining(", ", "{", "}"));
   }
 
   @Override
