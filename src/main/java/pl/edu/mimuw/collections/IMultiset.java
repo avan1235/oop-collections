@@ -1,7 +1,9 @@
 package pl.edu.mimuw.collections;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Function;
 
 public interface IMultiset<E> {
 
@@ -16,6 +18,12 @@ public interface IMultiset<E> {
   int remove(E element, int occurrences);
 
   boolean remove(E element);
+
+  Collection<E> removeAllMatching(Function<E, Boolean> matcher);
+
+  Collection<E> getAllMatching(Function<E, Boolean> matcher);
+
+  <R> IMultiset<R> map(Function<E, R> mapping);
 
   Set<E> elementSet();
 
