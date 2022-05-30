@@ -2,8 +2,6 @@ package pl.edu.mimuw.collections;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Executable;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MultisetTest {
@@ -85,4 +83,6 @@ class MultisetTest {
     assertThrowsExactly(IllegalArgumentException.class, () -> set.add(1, -1));
     assertThrowsExactly(IllegalArgumentException.class, () -> set.remove(1, -1));
   }
+
+  // TODO more significant tests
 }

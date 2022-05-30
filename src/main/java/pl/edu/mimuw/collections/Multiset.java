@@ -86,14 +86,13 @@ public class Multiset<E> implements IMultiset<E>, Iterable<E> {
 
   @Override
   public String toString() {
-    StringBuilder res = new StringBuilder();
-    Iterator<E> iterator = size() > MAX_WHOLE_PRINT ? this.elemCount.keySet().iterator() : iterator();
+    StringBuilder res = new StringBuilder("{");
+    Iterator<E> iterator = this.size > MAX_WHOLE_PRINT ? this.elemCount.keySet().iterator() : iterator();
     AtomicInteger i = new AtomicInteger(0);
 
-    res.append("{");
     iterator.forEachRemaining(e -> {
       String front = "", end = "";
-      if (size() > MAX_WHOLE_PRINT) {
+      if (this.size > MAX_WHOLE_PRINT) {
         front = count(e) + "x \"";
         end = "\"";
       }
