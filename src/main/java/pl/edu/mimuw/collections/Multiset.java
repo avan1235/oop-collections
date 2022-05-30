@@ -3,7 +3,7 @@ package pl.edu.mimuw.collections;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Multiset<E> implements IMultiset<E> {
+public class Multiset<E> implements IMultiset<E>, Iterable<E> {
   private final static int MAX_WHOLE_PRINT = 80;
   private final Map<E, Integer> elemCount;
   private int size;
@@ -11,6 +11,11 @@ public class Multiset<E> implements IMultiset<E> {
   public Multiset() {
     this.elemCount = new HashMap<>();
     this.size = 0;
+  }
+
+  public Multiset(Iterable<? extends E> elements) {
+    this();
+    elements.forEach(this::add);
   }
 
   public int size() {

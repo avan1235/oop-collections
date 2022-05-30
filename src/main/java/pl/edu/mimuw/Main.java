@@ -2,10 +2,6 @@ package pl.edu.mimuw;
 
 import pl.edu.mimuw.collections.Multiset;
 
-import java.util.Calendar;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 public class Main {
 
   public static void main(String[] args) {
@@ -32,5 +28,8 @@ public class Main {
     final var bigMultiset = new Multiset<Multiset<Integer>>();
     bigMultiset.add(integerMultiset, 420000000);
     System.out.println(bigMultiset);
+
+    final var multisetFromIter = new Multiset<>(integerMultiset);
+    System.out.println(multisetFromIter);
   }
 }
