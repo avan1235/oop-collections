@@ -2,6 +2,8 @@ package pl.edu.mimuw.collections;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MultisetTest {
@@ -82,5 +84,19 @@ class MultisetTest {
     final var set = new Multiset<Integer>();
     assertThrowsExactly(IllegalArgumentException.class, () -> set.add(1, -1));
     assertThrowsExactly(IllegalArgumentException.class, () -> set.remove(1, -1));
+  }
+
+  @Test
+  void testIterable() {
+    final var map1 = new Multiset<Integer>();
+    final var results = new LinkedList<Integer>();
+    final var iterator = map1.iterator();
+
+    iterator.forEachRemaining(results::add);
+
+    for (Integer e : results)
+      assertTrue(map1.remove(e));
+
+    assertEquals(0, map1.size());
   }
 }
