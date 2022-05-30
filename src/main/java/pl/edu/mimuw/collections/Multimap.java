@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Multimap<K, V> implements IMultimap<K, V> {
-  private final static int MAX_WHOLE_PRINT = 80;
   private final Map<K, Set<V>> map;
   private int size;
 
@@ -52,14 +51,14 @@ public class Multimap<K, V> implements IMultimap<K, V> {
 
   public boolean putAll(K key, Iterable<? extends V> values) {
     AtomicBoolean res = new AtomicBoolean(false);
-    values.forEach(e -> res.set(res.get() || put(key, e)));
+    values.forEach(e -> res.set(put(key, e) || res.get()));
     return res.get();
   }
 
   public Collection<V> removeAll(K key) {
     if (!this.map.containsKey(key)) return new HashSet<>();
     Collection<V> res = Set.copyOf(this.map.get(key));
-    this.map.get(key).clear();
+    this.map.remove(key);
     this.size -= res.size();
     return res;
   }

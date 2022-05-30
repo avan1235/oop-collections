@@ -34,7 +34,7 @@ class MultisetTest {
   }
 
   @Test
-  void testEquals() {
+  void testEquality() {
     final var set1 = new Multiset<Integer>();
     final var set2 = new Multiset<Integer>();
     final var elements1 = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -56,7 +56,7 @@ class MultisetTest {
   }
 
   @Test
-  void testSetOfSetsEquals() {
+  void testSetOfSetsEquality() {
     final var bigSet = new Multiset<Multiset<Integer>>();
     final var set1 = new Multiset<Integer>();
     final var set2 = new Multiset<Integer>();
@@ -83,6 +83,4 @@ class MultisetTest {
     assertThrowsExactly(IllegalArgumentException.class, () -> set.add(1, -1));
     assertThrowsExactly(IllegalArgumentException.class, () -> set.remove(1, -1));
   }
-
-  // TODO more significant tests
 }

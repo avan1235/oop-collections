@@ -36,7 +36,8 @@ public class Multiset<E> implements IMultiset<E>, Iterable<E> {
   }
 
   public boolean add(E element) {
-    return add(element, 1) == 0;
+    add(element, 1);
+    return true;
   }
 
   public int remove(E element, int occurrences) {
