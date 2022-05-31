@@ -1,8 +1,22 @@
 package pl.edu.mimuw;
 
+import pl.edu.mimuw.collections.Multiset;
+
 public class Main {
 
   public static void main(String[] args) {
-    throw new IllegalStateException("TODO: show your toString() implementation on simple examples");
+    var multiset = new Multiset<Integer>();
+
+    multiset.add(1);
+    multiset.add(1);
+    multiset.add(6);
+    multiset.add(1);
+    multiset.add(7);
+
+    var it = multiset.iterator();
+
+    for (var elem: multiset) {
+      System.out.println(elem);
+    }
   }
 }
