@@ -3,7 +3,7 @@ package pl.edu.mimuw.collections;
 import java.util.Iterator;
 import java.util.Set;
 
-public interface IMultiset<E> {
+public interface IMultiset<E> extends Iterable<E> {
 
   int size();
 
