@@ -3,7 +3,7 @@ package pl.edu.mimuw.collections;
 import java.util.Collection;
 import java.util.Set;
 
-public interface IMultimap<K, V> {
+public interface IMultimap<K, V> extends Iterable<K> {
 
   int size();
 
