@@ -9,4 +9,4 @@ You can get 2 points for this task:
 
 Remember to write your implementation in generic way and keeping your code clean.
 
-The deadline for this task is 29.05.2022 (23:59)
+The deadline for this task is 31.05.2022 (23:59)

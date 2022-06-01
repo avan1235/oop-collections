@@ -3,33 +3,33 @@ package pl.edu.mimuw.collections;
 import java.util.Iterator;
 import java.util.Set;
 
-public interface IMultiset<E> {
+public interface IMultiset<E>
+{
 
-  int size();
+	int size();
 
-  int count(E element);
+	int count(E element);
 
-  int add(E element, int occurrences);
+	int add(E element, int occurrences);
 
-  boolean add(E element);
+	boolean add(E element);
 
-  int remove(E element, int occurrences);
+	int remove(E element, int occurrences);
 
-  boolean remove(E element);
+	boolean remove(E element);
 
-  Set<E> elementSet();
+	Set <E> elementSet();
 
-  boolean contains(E element);
+	boolean contains(E element);
 
-  Iterator<E> iterator();
+	Iterator <E> iterator();
 
-  @Override
-  boolean equals(Object object);
+	@Override
+	boolean equals(Object object);
 
-  @Override
-  int hashCode();
+	@Override
+	int hashCode();
 
-  @Override
-  String toString();
+	@Override
+	String toString();
 }
-
