@@ -40,7 +40,7 @@ public final class Multiset <E> implements IMultiset <E>
 		size += occurrences;
 		if (!internalMap.containsKey(element))
 			internalMap.put(element, occurrences);
-		internalMap.replace(element, internalMap.get(element) + occurrences);
+		else internalMap.replace(element, internalMap.get(element) + occurrences);
 		return internalMap.get(element);
 	}
 

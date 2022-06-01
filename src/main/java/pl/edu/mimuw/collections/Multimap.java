@@ -1,6 +1,7 @@
 package pl.edu.mimuw.collections;
 
 import java.util.*;
+
 import static java.util.List.of;
 
 public class Multimap<K, V> implements IMultimap <K, V>
@@ -8,14 +9,10 @@ public class Multimap<K, V> implements IMultimap <K, V>
 	private final TreeMap <K, ArrayList <V>> internalMap;
 	private int size;
 
-	public Multimap(TreeMap <K, ArrayList <V>> internalMap)
-	{
-		this.internalMap = internalMap;
-	}
-
 	public Multimap()
 	{
 		this.internalMap = new TreeMap <>();
+		size = 0;
 	}
 
 	@Override
@@ -44,9 +41,10 @@ public class Multimap<K, V> implements IMultimap <K, V>
 	{
 		if (internalMap.containsKey(key) && internalMap.get(key).contains(value))
 			return false;
+		size++;
 		if (!internalMap.containsKey(key))
 		{
-			var tmp = new ArrayList<V>();
+			var tmp = new ArrayList <V>();
 			tmp.add(value);
 			internalMap.put(key, tmp);
 		}
@@ -59,6 +57,7 @@ public class Multimap<K, V> implements IMultimap <K, V>
 	{
 		if (internalMap.containsKey(key) && internalMap.get(key).contains(value))
 		{
+			size--;
 			internalMap.get(key).remove(value);
 			return true;
 		}
@@ -71,23 +70,32 @@ public class Multimap<K, V> implements IMultimap <K, V>
 		boolean ret = false;
 		for (V value : values)
 			if (!internalMap.containsKey(key) || !internalMap.get(key).contains(value))
+			{
+				size++;
 				ret = true;
+			}
 		for (V value : values)
+		{
 			if (internalMap.containsKey(key))
 				internalMap.get(key).add(value);
 			else
 			{
-				var tmp = new ArrayList<V>();
+				var tmp = new ArrayList <V>();
 				tmp.add(value);
 				internalMap.put(key, tmp);
 			}
-			return ret;
+		}
+		return ret;
 	}
 
 	@Override
 	public Collection <V> removeAll(K key)
 	{
-		ArrayList <V> ret = (ArrayList <V>) ((ArrayList <V>) (internalMap.get(key))).clone(); //chyba nie da się tutaj zrobić deep copy w bardziej elegancki sposób
+		ArrayList <V> ret;
+		if (internalMap.containsKey(key))
+			ret = (ArrayList <V>) ((internalMap.get(key))).clone(); //chyba nie da się tutaj zrobić deep copy w bardziej elegancki sposób
+		else ret = new ArrayList <>();
+		size -= ret.size();
 		internalMap.remove(key);
 		return ret;
 	}
@@ -107,7 +115,7 @@ public class Multimap<K, V> implements IMultimap <K, V>
 	@Override
 	public IMultiset <K> keys()
 	{
-		var ret = new Multiset<K>();
+		var ret = new Multiset <K>();
 		for (var i : keySet())
 			ret.add(i, internalMap.get(i).size());
 		return ret;
